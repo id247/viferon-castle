@@ -74,7 +74,8 @@ gulp.task('sprite', function(callback) {
 		.pipe(spritesmith({
 			imgName: 'sprite.png',
 			cssName: '_sprites.scss',
-			imgPath: '../images/sprite.png'
+			imgPath: '../images/sprite.png',
+			padding: 10,
 		}))
 		.on('error', $.notify.onError())
 		

@@ -99,57 +99,79 @@ export default (function (window, document, $){
 
 	}
 
-	/*
-		submit form
-	*/
 
-	function form(){		
+	function scene(){		
 
+		const $window = $(window);
+		const $document = $(document);
+		const $body = $('#body');
+		const $scene = $('#scene');
+		const $texts = $('.js-scene-text');
+		const $finalText = $texts.filter('[data-stage="final"]');
+		const $bacterias = $('#bacterias');
 
-		$('form').each( function(){
+		const textVisibleClass = 'scene__text--visible';
+		const bacteriasVisibleClass = 'castle__bacterias--visible';
 
-			const $form = $(this);
-			const $button = $form.find('button[type="submit"]');
-			const $success = $form.find('.order-form__success');
-			
-			$success.hide();
+		let docHeight = $document.height();
 
-			$form.on('submit', function(e){
-
-				e.preventDefault();
-
-				const form = e.target;
-
-
-				$button.text('Отправка данных...');
-				$button.attr('disabled', true);
-
-				$.ajax({
-					url: $form.attr('action'), 
-				    method: 'POST',
-				    data: $form.serialize(),
-				    dataType: 'json',
-				    success: function( response ) {
-				    	console.log(response);
-						$success.html('Спасибо! Ваша заявка была успешно отправлена!');
-						$success.removeClass('order-form__success--error');	
-				    },
-				    error: function(xhr, ajaxOptions, error){
-				    	console.log('Data could not be saved.' + error.message);
-						$success.addClass('order-form__success--error');
-						$success.html('Ошибка сохранения данных, попробуйте еще раз. Если ошибка повторится - свяжитесь с нами.');
-
-				    },
-				    complete: function(){					    	
-				    	$success.show();
-						$button.attr('disabled', false).text('Отправить заявку');			    	
-				    }
-				});				
-				
-				
-
-			});
+		$document.on('scroll', function(){
+			console.log($body.scrollTop());
+			nextStage();
 		});
+
+		$window.on('resize', function(){
+			console.log('resize');
+			$window.scrollTop(0);
+			docHeight = $document.height();
+			nextStage();
+		});		
+		
+		function nextStage(){
+			const stagesCount = 9;
+			const stepHeight = docHeight / stagesCount;
+			let currentStage = 0;
+
+			const timers = [];
+
+
+			for (var i = 0; i <= stagesCount; i++){
+				console.log($window.scrollTop(), i * stepHeight);
+
+				if ($window.scrollTop() > ( i * stepHeight ) - stepHeight ){
+					currentStage = i;
+					$scene.addClass('scene--stage-' + i);
+				}else{
+					$scene.removeClass('scene--stage-' + i);
+				}
+			}
+
+			console.log(currentStage);
+
+			$texts
+				.removeClass(textVisibleClass)
+				.filter('[data-stage="' + currentStage + '"]')
+				.addClass(textVisibleClass);
+
+
+			if (currentStage === 9){				
+
+				timers.push(setTimeout(()=>{
+					$bacterias.addClass(bacteriasVisibleClass);
+				}, 1000));
+
+				timers.push(setTimeout(()=>{
+					$finalText.addClass(textVisibleClass);
+				}, 4000));
+
+			}else{
+				timers.map( timer => clearTimeout );
+				$bacterias.removeClass(bacteriasVisibleClass);
+				$finalText.removeClass(textVisibleClass);
+			}
+			
+		}
+		nextStage();
 
 	}
 
@@ -161,7 +183,7 @@ export default (function (window, document, $){
 
 		scrollMeTo();
 		menu();
-		form();
+		scene();
 	}
 
 	return {
