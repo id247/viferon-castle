@@ -109,11 +109,14 @@ export default (function (window, document, $){
 		const $texts = $('.js-scene-text');
 		const $finalText = $texts.filter('[data-stage="final"]');
 		const $bacterias = $('#bacterias');
+		const $jumpButton = $('.js-jump');
 
 		const textVisibleClass = 'scene__text--visible';
 		const bacteriasVisibleClass = 'castle__bacterias--visible';
 
 		let docHeight = $document.height();
+		
+		const timers = [];
 
 		$document.on('scroll', function(){
 			console.log($body.scrollTop());
@@ -126,17 +129,19 @@ export default (function (window, document, $){
 			docHeight = $document.height();
 			nextStage();
 		});		
+
+		$jumpButton.on('click', function(e){
+			e.preventDefault();
+			const newPosition = $(this).data('to');
+			$window.scrollTop(newPosition);
+		});		
 		
 		function nextStage(){
 			const stagesCount = 9;
 			const stepHeight = docHeight / stagesCount;
 			let currentStage = 0;
 
-			const timers = [];
-
-
 			for (var i = 0; i <= stagesCount; i++){
-				console.log($window.scrollTop(), i * stepHeight);
 
 				if ($window.scrollTop() > ( i * stepHeight ) - stepHeight ){
 					currentStage = i;
@@ -165,7 +170,7 @@ export default (function (window, document, $){
 				}, 4000));
 
 			}else{
-				timers.map( timer => clearTimeout );
+				timers.map( clearTimeout );
 				$bacterias.removeClass(bacteriasVisibleClass);
 				$finalText.removeClass(textVisibleClass);
 			}
