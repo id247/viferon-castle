@@ -119,7 +119,6 @@ export default (function (window, document, $){
 		const timers = [];
 
 		$document.on('scroll', function(){
-			console.log($body.scrollTop());
 			nextStage();
 		});
 
@@ -167,7 +166,7 @@ export default (function (window, document, $){
 
 				timers.push(setTimeout(()=>{
 					$finalText.addClass(textVisibleClass);
-				}, 4000));
+				}, 7000));
 
 			}else{
 				timers.map( clearTimeout );

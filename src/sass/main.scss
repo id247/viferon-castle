@@ -574,6 +574,10 @@
 		padding: 10px 20px;
 		min-width: 250px;
 		border-radius: 4px;
+
+		&:hover{
+			background: lighten(#08a513, 5%);
+		}
 	}
 }
 @keyframes scrolldown {
