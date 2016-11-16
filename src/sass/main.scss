@@ -70,6 +70,10 @@
 				transition-delay: .5s;
 			}
 		}
+
+		.scene__content:after{
+			opacity: 1;
+		}
 	}
 
 	&--stage-2{
@@ -157,7 +161,15 @@
 		.grass__tree--3{
 			right: 150px;
 		}
+
+		.scene__content:after{
+			opacity: 0;
+		}
 	}
+
+
+
+
 
 
 	&__content{
@@ -169,6 +181,18 @@
 		margin: auto;
 		width: 1000px;
 		height: 600px;	
+
+		&:after{
+			content: '';
+			position: absolute;
+			bottom: -35px;
+			left: 0;
+			right: 0;
+			margin: auto;
+			opacity: 0;
+			@include sprite($scroll-arrow);
+			animation: 1.5s linear 0s infinite alternate scrolldown;
+		}
 	}
 	
 	&__logo-placeholder{
@@ -211,6 +235,8 @@
 		width: 360px;
 
 		opacity: 0;
+		visibility: hidden;
+		transform: translateY(20px);
 		
 		transition: all .4s;
 
@@ -232,6 +258,8 @@
 
 		&--visible{
 			opacity: 1;
+			visibility: visible;
+			transform: translateY(0px);
 		}
 	}
 }
@@ -387,7 +415,7 @@
 		bottom: 0;
 		left: 50%;
 
-		transition: all .5s;
+		transition: all .5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 
 		&--1{
 			@include sprite($castle-1);
@@ -408,12 +436,14 @@
 		&--3-1{
 			@include sprite($castle-3-1);
 			margin-left: -206px;
+			margin-bottom: -50px;
 			transform: translateY(280px);
 		}
 
 		&--3-2{
 			@include sprite($castle-3-2);
 			margin-left: 145px;
+			margin-bottom: -50px;
 			transition-delay: .3s;
 			transform: translateY(280px);
 		}
@@ -497,6 +527,7 @@
 			border-radius: 50%;
 			opacity: 0;
 			transform: scale(0);
+			transition-timing-function: ease;
 		}
 	}
 }

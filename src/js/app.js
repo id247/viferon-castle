@@ -162,11 +162,11 @@ export default (function (window, document, $){
 
 				timers.push(setTimeout(()=>{
 					$bacterias.addClass(bacteriasVisibleClass);
-				}, 1000));
+				}, 400));
 
 				timers.push(setTimeout(()=>{
 					$finalText.addClass(textVisibleClass);
-				}, 7000));
+				}, 5000));
 
 			}else{
 				timers.map( clearTimeout );
