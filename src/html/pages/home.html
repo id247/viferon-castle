@@ -256,7 +256,7 @@
 					
 					<div class="scene-text__button-placeholder">
 						
-						<button class="scene-text__button button js-jump" data-to="10000">Проверить</button>
+						<button class="scene-text__button button js-jump" data-to="10000">Проверить защиту</button>
 
 					</div><!-- /.scene-text__button-placeholder -->
 
@@ -284,7 +284,16 @@
 					
 					<div class="scene-text__button-placeholder">
 						
-						<a href="#" class="scene-text__button button">Вернуться</a>
+						<a 
+						
+						@@if (server !== "mosreg"){
+						href="https://groups.dnevnik.ru/group.aspx?group=315436" 
+						}
+						@@if (server === "mosreg"){
+						href="https://groups.school.mosreg.ru/group.aspx?group=313076" 
+						}
+		
+						class="scene-text__button button">Перейти в группу проекта</a>
 
 					</div><!-- /.scene-text__button-placeholder -->
 
